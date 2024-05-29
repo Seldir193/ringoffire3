@@ -1,0 +1,22 @@
+
+
+
+{
+  "hosting": {
+    "public": "dist/ringoffire3",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
+
+
+

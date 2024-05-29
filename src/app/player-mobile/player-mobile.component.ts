@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-player',
-  templateUrl: './player.component.html',
-  styleUrl: './player.component.scss'
+  selector: 'app-player-mobile',
+  templateUrl: './player-mobile.component.html',
+  styleUrl: './player-mobile.component.scss'
 })
-export class PlayerComponent implements OnInit {
+export class PlayerMobileComponent implements OnInit {
 
   @Input() name: string = '';
   @Input() image: string = '';

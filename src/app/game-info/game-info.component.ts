@@ -1,11 +1,11 @@
-import { Component,Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-game-info',
   templateUrl: './game-info.component.html',
-  styleUrl: './game-info.component.scss'
+  styleUrls: ['./game-info.component.scss']
 })
-export class GameInfoComponent implements OnInit ,OnChanges {
+export class GameInfoComponent implements OnInit, OnChanges {
   cardAction = [
     { title: 'Waterfall', description: 'Everyone has to start drinking at the same time. As soon as player 1 stops drinking, player 2 may stop drinking. Player 3 may stop as soon as player 2 stops drinking, and so on.' },
     { title: 'You', description: 'You decide who drinks' },
@@ -18,7 +18,7 @@ export class GameInfoComponent implements OnInit ,OnChanges {
     { title: 'Thumbmaster', description: '' },
     { title: 'Men', description: 'All men drink.' },
     { title: 'Quizmaster', description: '' },
-    { title: 'Never have i ever...', description: 'Say something you nnever did. Everyone who did it has to drink.' },
+    { title: 'Never have I ever...', description: 'Say something you never did. Everyone who did it has to drink.' },
     { title: 'Rule', description: 'Make a rule. Everyone needs to drink when he breaks the rule.' },
   ];
 
@@ -28,18 +28,28 @@ export class GameInfoComponent implements OnInit ,OnChanges {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   ngOnChanges(): void {
     if (this.card) {
       console.log('Current Card:', this.card);
-      let cardNumber = +(this.card.split('_')[1], 10);
-      this.title = this.cardAction[cardNumber - 1].title;
-      this.description = this.cardAction[cardNumber - 1].description;
+      const cardParts = this.card.split('_');
+      if (cardParts.length === 2) {
+        const cardNumber = parseInt(cardParts[1], 10);
+        if (!isNaN(cardNumber) && cardNumber >= 1 && cardNumber <= this.cardAction.length) {
+          this.title = this.cardAction[cardNumber - 1].title;
+          this.description = this.cardAction[cardNumber - 1].description;
+        } else {
+          console.warn('Card number is out of range:', cardNumber);
+        }
+      } else {
+        console.warn('Card format is invalid:', this.card);
+      }
     }
   }
 }
+
+
 
 
 
