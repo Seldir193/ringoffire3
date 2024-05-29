@@ -1,4 +1,4 @@
-<app-player (click)="editPlayer(i)" *ngFor="let player of game.players; let i = index;" [ngStyle]="{'top.px': 100 + (i * 90)}"
+<app-player (click)="editPlayer(i)" *ngFor="let player of game.players; let i = index;" [ngStyle]="{'top.px': 20 + (i * 70)}"
 [playerAktive]="i == game.currentPlayer" [image]="game.player_images[i]"
 [name]="player"
   class="player-position hide-mobile"></app-player>
@@ -12,7 +12,13 @@
 
 </div>
 
-<div class="field">
+<div *ngIf="gameOver" class="gameOver">
+
+  <img src="./assets/img/gameOver.jpg">
+
+</div>
+
+<div *ngIf="!gameOver" class="field">
     <div class="card-stack">
        
         <img  *ngFor="let c of [0,1,2,3]; let i = index;" [ngStyle]="{'right.px': i * 5}"
@@ -28,10 +34,12 @@
     </div>
 </div>
 
-<app-game-info [card]="game.currentCard" class="pin-bottom"></app-game-info>
+<app-game-info *ngIf="!gameOver" [card]="game.currentCard" class="pin-bottom"></app-game-info>
 
 
 
-<button mat-fab color="warn" (click)="openDialog()" class="btn-add">
+<button *ngIf="!gameOver" mat-fab color="warn" (click)="openDialog()" class="btn-add">
   <mat-icon>add</mat-icon>
 </button>
+
+<img class="preloadImage" src="/assets/img/cards/{{ game.stack[game.stack.length -1] }}.png">

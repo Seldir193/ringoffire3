@@ -18,6 +18,7 @@ import { EditPlayerComponent } from '../edit-player/edit-player.component';
 export class GameComponent implements OnInit {
   game: Game = new Game;
   gameId: string = '';
+  gameOver = false;
   games$!: Observable<any[]>;
   
   constructor(private route: ActivatedRoute,private firestore: Firestore = inject(Firestore), public dialog: MatDialog){
@@ -65,7 +66,9 @@ export class GameComponent implements OnInit {
   }
 
   takeCard(){
-  if (!this.game.pickCardAnimation) {
+    if(this.game.stack.length == 0){
+      this.gameOver = true;
+    }else if (!this.game.pickCardAnimation) {
     const card = this.game.stack.pop();
     if (card) {
       this.game.currentCard = card;
@@ -107,8 +110,15 @@ export class GameComponent implements OnInit {
     const dialogRef = this.dialog.open(EditPlayerComponent);
     dialogRef.afterClosed().subscribe((change: string) => {
       console.log('Received',change);
-      this.game.player_images[playerId] = change;
-      this.saveGame();
+      if(change){
+        if(change == 'DELETE'){
+          this.game.players.splice(playerId,1);
+          this.game.player_images.splice(playerId,1);
+        } else{
+          this.game.player_images[playerId] = change;
+        }
+        this.saveGame();
+      }
     });
   }
 }
